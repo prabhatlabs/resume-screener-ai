@@ -1,15 +1,14 @@
-import os
 import json
-import time
+import os
 import tempfile
+import time
 
-from fastapi import FastAPI, UploadFile, File, Form, HTTPException
+from dotenv import load_dotenv
+from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
-from dotenv import load_dotenv
-
-from models import ScreeningResponse, ScreeningResult, ChatRequest
-from llm_service import extract_text_from_pdf, get_file_hash, chat_stream
+from llm_service import chat_stream, extract_text_from_pdf, get_file_hash
+from models import ChatRequest, ScreeningResponse, ScreeningResult
 
 load_dotenv()
 
