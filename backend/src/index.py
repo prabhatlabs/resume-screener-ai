@@ -6,13 +6,13 @@ from dotenv import load_dotenv
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
+from fastapi.staticfiles import StaticFiles
 from src.llm_service import chat_stream, extract_text_from_pdf, get_file_hash
 from src.models import ChatRequest, ScreeningResponse, ScreeningResult
 
 load_dotenv()
 
 app = FastAPI(title="Resume Screener AI")
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -22,11 +22,6 @@ app.add_middleware(
 )
 
 resume_cache: dict[str, dict] = {}
-
-
-@app.get("/")
-async def root():
-    return {"message": "Resume Screener AI API"}
 
 
 @app.post("/api/screen", response_model=ScreeningResponse)
@@ -69,7 +64,7 @@ async def screen_resumes(
                 )
                 continue
 
-            from llm_service import screen_resume
+            from src.llm_service import screen_resume
 
             analysis = screen_resume(resume_text, job_description)
             result = ScreeningResult(**analysis)
@@ -109,7 +104,7 @@ async def chat(request: ChatRequest):
 
 @app.get("/api/health")
 async def health():
-    from llm_service import get_llm_client
+    from src.llm_service import get_llm_client
 
     provider, _ = get_llm_client()
     api_key = os.getenv("GEMINI_API_KEY", "")
@@ -119,3 +114,7 @@ async def health():
         "key_loaded": bool(api_key),
         "key_prefix": api_key[:10] + "..." if api_key else None,
     }
+
+
+# Place this AFTER all other routes so it doesn't shadow them
+app.mount("/", StaticFiles(directory="static", html=True), name="static")
