@@ -1,0 +1,100 @@
+HIRING ASSIGNMENT
+Assignment 1
+AI-Powered Resume Screener
+Role
+AI-First Full Stack Developer (Fresher)
+Stack
+Python (FastAPI) · TypeScript (React) · OpenAI / Gemini API
+Duration
+3–4 Days
+Difficulty
+Mid-Level Problem
+Submission
+GitHub Repository + Live Demo Link
+
+
+Overview
+Build a full-stack AI-powered application that lets a recruiter upload multiple candidate resumes, rank them automatically using an LLM, and interact with the results via a chat interface. This assignment tests your ability to integrate AI meaningfully into a real-world workflow — not just wrap an API call.
+Problem Statement
+Recruiters waste hours manually reading resumes. Your job is to build a tool that automates the first pass of resume screening. The system should accept multiple PDF resumes, extract their content, send them to an LLM with a job description, and return ranked results with AI-generated reasoning.
+Functional Requirements
+1. Resume Upload (Frontend)
+Multi-file PDF upload with drag-and-drop support
+Show upload progress for each file
+Input field for a custom Job Description (JD) text
+Trigger screening on button click
+2. Resume Parsing & Screening (Backend — Python/FastAPI)
+Accept uploaded PDFs via REST endpoint
+Extract text from each PDF (use PyMuPDF or pdfplumber)
+Send each resume + the JD to an LLM (OpenAI GPT-4o or Gemini) with a structured prompt
+Return a JSON response with: candidate name, match score (0–100), top 3 strengths, top 2 gaps, one-line summary
+Handle LLM rate limits and errors gracefully
+3. Leaderboard UI (Frontend — TypeScript/React)
+Display ranked candidates in a card or table view
+Show match score, name, summary, strengths and gaps per card
+Sort by score descending; allow manual re-sort by name
+Highlight top candidate with a visual badge
+4. Chat Interface
+Add a chat panel where the recruiter can ask questions like: "Which candidate has the most Python experience?" or "Compare candidate 1 and 3"
+Maintain context of all screened resumes in the chat prompt
+Stream LLM responses in real time to the chat UI
+Technical Specifications
+Layer
+Requirement
+Backend
+Python 3.10+, FastAPI, Uvicorn, pdfplumber or PyMuPDF, openai or google-generativeai SDK
+Frontend
+React 18+, TypeScript (strict mode), Tailwind CSS or any component lib
+API Contract
+RESTful JSON API; use Pydantic models for request/response validation
+Auth
+No auth required — single user assumed
+Environment
+All API keys via .env — never hard-coded
+
+
+Bonus Features (Optional)
+Streaming LLM output to the leaderboard card as it generates
+Cache LLM results — don't re-screen the same resume (use MD5 hash of file content)
+Export ranked results as CSV
+Dark mode toggle
+Free Hosting Guide
+Backend (FastAPI) — Render.com
+Push code to GitHub
+Go to render.com → New Web Service → Connect repo → Set Start Command: uvicorn main:app --host 0.0.0.0 --port $PORT
+Add environment variables (OPENAI_API_KEY etc.) in Render's dashboard
+Free tier: 512MB RAM, spins down after 15 min inactivity — acceptable for demo
+Frontend (React) — Vercel
+Push frontend folder to GitHub (can be a subfolder with vercel.json)
+Go to vercel.com → Import Project → select repo → set root to frontend/
+Set VITE_API_URL (or REACT_APP_API_URL) to your Render backend URL in Vercel env vars
+Deploy — Vercel auto-deploys on every push to main
+
+Evaluation Criteria
+Criteria
+Weight
+What We Look For
+AI Integration
+30%
+Prompt quality, structured JSON output, streaming, error handling
+Code Quality
+25%
+TypeScript types, Python structure, clean separation of concerns
+API Design
+20%
+Pydantic models, proper HTTP codes, error messages
+Frontend UX
+15%
+Loading states, responsive layout, real-time feedback
+README / Docs
+10%
+Clear setup instructions, architecture diagram optional
+
+
+Submission Instructions
+Push all code to a public GitHub repository named resume-screener-ai
+Include a README.md with: setup steps, .env.example, live demo link, and any known limitations
+Deploy backend to Render and frontend to Vercel
+Submit: GitHub URL + Live Demo URL via the provided form
+
+  Note: We will test your live demo with 3 sample resumes provided during the interview. Make sure the Render service does not exceed free tier limits during the demo.
