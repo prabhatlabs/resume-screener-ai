@@ -29,7 +29,7 @@ LLM_PROVIDER=gemini
 Start the server:
 
 ```bash
-uvicorn main:app --reload
+uvicorn src.index:app --reload
 ```
 
 ### Frontend
